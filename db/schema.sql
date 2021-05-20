@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS vibez_db;
+CREATE DATABASE vibez_db;
