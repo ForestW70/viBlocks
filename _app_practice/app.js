@@ -53,7 +53,7 @@ document.getElementById('channel2').addEventListener('click', async () => {
     // we use our drum kit object from above to pass a specific drum into Player().
     // after the Player method, we must attach the toDestination() method on the end,
     // this effectively is telling Tone to send the audio to our speakers.
-    // Line 43 is how our sound is triggered. Think of it like calling a function that you previously created.
+    // Line 58 is how our sound is triggered. Think of it like calling a function that you previously created.
     const player = new Tone.Player(technoDrums.kick).toDestination();
     player.autostart = true;
 })
@@ -64,11 +64,11 @@ document.getElementById('channel3').addEventListener('click', async () => {
     console.log("short boop");
 
     // Like the drums above, we must create a new instrument instance, but instead of Player, we'll use Synth.
-    // When triggering our synth sound, we must follow the syntax on line 56, as opposed to setting start to "true".
+    // When triggering our synth sound, we must follow the syntax on line 71, as opposed to setting start to "true".
     // triggerAttackRelease takes multiple arguments, but here there will only be two. the first argument controls the pitch, the second controls the duration.
     // "C3" says play a C note in the 3rd octave. "8n" says play for a 1/8th note.
     const synth = new Tone.Synth().toDestination();
-    synth.triggerAttackRelease("C4", "8n");
+    synth.triggerAttackRelease("C3", "8n");
 
 })
 
@@ -93,7 +93,7 @@ document.getElementById('channel5').addEventListener('click', async () => {
     // there are also pre-made synth objects with their own sound qualities.
     // We chaned "Synth" to "MembraneSynth", but you can also try "PluckSynth", and "DuoSynth" to name a few.
     const synth = new Tone.MembraneSynth().toDestination();
-    synth.triggerAttackRelease("C4", "8n");
+    synth.triggerAttackRelease("C#4", "8n");
 
 })
 
@@ -116,17 +116,17 @@ document.getElementById('channel6').addEventListener('click', async () => {
 // DRUM SEQUENCER - linked to step sequencer
 
 // these variables are used to control the pause/play button. they are used to control the logic within the click function.
-let seqOn = false;
+let drumSeqInit = false;
 let playing = false;
 
 
 // this function begins with the same async/await boilerplate code linked to the "play" button.
 document.getElementById('play').addEventListener('click', async () => {
     await Tone.start();
-    
+
 
     // if sequencer has not been initialized yet
-    if (!seqOn) {
+    if (!drumSeqInit) {
         console.log("playing sequencer...")
 
         let index = 0;
@@ -135,7 +135,7 @@ document.getElementById('play').addEventListener('click', async () => {
         // bpm.value is a number we can set that disctates just how long 1/8th note is. Dont worry about this number, just know the higher, the faster it will play.
         Tone.Transport.scheduleRepeat(repeat, '8n');
         Tone.Transport.bpm.value = 133;
-        
+
         // in our repeat function, each action will be done 6 times, because we want 6 seperate drums to play using our 6 created rows.
         function repeat() {
 
@@ -150,7 +150,7 @@ document.getElementById('play').addEventListener('click', async () => {
             const drum4 = new Tone.Player(technoDrums.tom1).toDestination();
             const drum5 = new Tone.Player(technoDrums.tom2).toDestination();
             const drum6 = new Tone.Player(technoDrums.tom3).toDestination();
-            
+
             // targeting each row-container in the step sequencer
             const row1 = document.getElementById("seq-row1");
             const row2 = document.getElementById("seq-row2");
@@ -158,8 +158,8 @@ document.getElementById('play').addEventListener('click', async () => {
             const row4 = document.getElementById("seq-row4");
             const row5 = document.getElementById("seq-row5");
             const row6 = document.getElementById("seq-row6");
-            
-            
+
+
             // these targets are how Tone.transport knows which square in the row that the sequencer is at. 
             // step = current square. +1 since step starts at 0 instead of 1, and +1 since the first child in our seq-row is <h3> instead of input, so step + 2 skips these first two positions.
             let iCheck1 = row1.querySelector(`input:nth-child(${step + 2})`);
@@ -170,22 +170,22 @@ document.getElementById('play').addEventListener('click', async () => {
             let iCheck6 = row6.querySelector(`input:nth-child(${step + 2})`);
 
             // if the box is checked when the our tracker (icheck) arrives at the next box, play drum sound.
-            if(iCheck1.checked) {
+            if (iCheck1.checked) {
                 drum1.autostart = true;
             }
-            if(iCheck2.checked) drum2.autostart = true;
-            if(iCheck3.checked) drum3.autostart = true;       
-            if(iCheck4.checked) drum4.autostart = true;
-            if(iCheck5.checked) drum5.autostart = true;
-            if(iCheck6.checked) drum6.autostart = true;
-            
+            if (iCheck2.checked) drum2.autostart = true;
+            if (iCheck3.checked) drum3.autostart = true;
+            if (iCheck4.checked) drum4.autostart = true;
+            if (iCheck5.checked) drum5.autostart = true;
+            if (iCheck6.checked) drum6.autostart = true;
+
             // itterate through our row.
             index++;
 
         }
         // mark sequencer as initialized
-        seqOn = true;
-    } 
+        drumSeqInit = true;
+    }
 
     // if sequencer is currently active, stop sequencer and change play to false
     // if sequecer is paused (play = false), unpause the sequencer and set play to true.
@@ -199,4 +199,93 @@ document.getElementById('play').addEventListener('click', async () => {
 
 })
 
+
+
+
+
+// MELODY SEQUENCER
+
+const notes = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+
+const cMajScale = ["A", "B", "C", "D", "E", "F", "G"];
+
+const cMinScale = ["A#", "B#", "C", "D", "E#", "F", "G"];
+
+let melSeqInit = false;
+// let playing = false;
+
+
+cMajScale.forEach(note => {
+    const pitchRow = document.createElement('div');
+    pitchRow.id = `${note}Row`;
+    const melContainer = document.getElementById("mel-container");
+    
+    melContainer.appendChild(pitchRow);
+
+
+    for (let i = 1; i < 9; i++) {
+        const stepInput = document.createElement('input');
+        stepInput.type = "checkbox";
+        stepInput.id = note + "-" + i;
+        pitchRow.appendChild(stepInput);
+    }
+    const rowHead = document.createElement("span");
+    rowHead.innerText = note;
+    pitchRow.appendChild(rowHead);
+})
+
+document.getElementById("playMel").addEventListener("click", async () => {
+    await Tone.start();
+
+
+    if (!melSeqInit) {
+        console.log("melody sequencer playing...");
+
+        let index = 0;
+        Tone.Transport.scheduleRepeat(repeat, "8n")
+        Tone.Transport.bpm.value = 133;
+
+        function repeat() {
+            let step = index % 8;
+
+            cMajScale.forEach(note => {
+                const synth = new Tone.Synth().toDestination();
+                synth.oscillator.type = "triangle";
+
+                const reverb = new Tone.Reverb(1).toDestination();
+                const osc = new Tone.Oscillator(440, "sawtooth").chain(reverb);
+                osc.frequency.value = `${note}3`;
+
+                
+
+
+                
+                
+
+                const row = document.getElementById(`${note}Row`);
+                let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
+                if (iCheck.checked) {
+                    // synth.triggerAttackRelease(`${note}4, 16n`);
+                    osc.start().stop("+0.1");
+                }
+            })
+            index++;
+        }
+
+
+
+
+        melSeqInit = true;
+    }
+
+    if (playing) {
+        Tone.Transport.stop();
+        playing = false;
+    } else {
+        Tone.Transport.start();
+        playing = true;
+    }
+
+
+})
 
