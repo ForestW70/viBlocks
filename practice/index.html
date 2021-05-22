@@ -5,22 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
+    <title>vibez seq</title>
 </head>
 
 <body>
-    <div>
-        <button id="synth1">triangle synth</button>
-        <button id="synth2">sine synth</button>
-        <button id="synth3">sawtooth synth</button>
-        <button id="synth4">square synth</button>
-
-    </div>
     
-
     <div class="sequencer">
-        <button id="play">play</button>
-        <div class="seq-row">
+        <h3>Step Sequencer</h3>
+        <button id="play">play/pause</button>
+        <!-- <button id="pause">pause</button>
+        <button id="stop">stop</button> -->
+
+        <div id="seq-row1" class="seq-row">
+            <span>Drum1</span>
             <input type="checkbox">
             <input type="checkbox">
             <input type="checkbox">
@@ -30,7 +28,8 @@
             <input type="checkbox">
             <input type="checkbox">
         </div>
-        <div class="seq-row">
+        <div id="seq-row2"class="seq-row">
+            <span>Drum2</span>
             <input type="checkbox">
             <input type="checkbox">
             <input type="checkbox">
@@ -40,7 +39,8 @@
             <input type="checkbox">
             <input type="checkbox">
         </div>
-        <div class="seq-row">
+        <div id="seq-row3" class="seq-row">
+            <span>Drum3</span>
             <input type="checkbox">
             <input type="checkbox">
             <input type="checkbox">
@@ -50,7 +50,8 @@
             <input type="checkbox">
             <input type="checkbox">
         </div>
-        <div class="seq-row">
+        <div id="seq-row4" class="seq-row">
+            <span>Drum4</span>
             <input type="checkbox">
             <input type="checkbox">
             <input type="checkbox">
@@ -60,6 +61,41 @@
             <input type="checkbox">
             <input type="checkbox">
         </div>
+        <div id="seq-row5" class="seq-row">
+            <span>Drum5</span>
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+        </div>
+        <div id="seq-row6" class="seq-row">
+            <span>Drum6</span>
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+            <input type="checkbox">
+        </div>
+    </div>
+
+    <div class="touch-int">
+        <div id="buttonLand">
+            <h3>Button Land</h3>
+            <button id="channel1">empty</button>
+            <button id="channel2">kick</button>
+            <button id="channel3">basic synth</button>
+            <button id="channel4">sawtooth synth</button>
+            <button id="channel5">pre-made synth</button>
+            <button id="channel6">empty</button>
+        </div>
+
     </div>
 </body>
 
