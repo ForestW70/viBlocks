@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./styles.css">
     <title>vibez seq</title>
 </head>
 
-<body>
+<body class="row">
     
-    <div class="sequencer">
+    <div class="sequencer col-6">
         <h3>Step Sequencer</h3>
         <button id="play">play/pause</button>
         <!-- <button id="pause">pause</button>
@@ -83,9 +84,25 @@
             <input type="checkbox">
             <input type="checkbox">
         </div>
+
+
+
+
+
+        <h3>Melody Sequencer</h3>
+        <button id="playMel">play/pause</button>
+        <div id="mel-container" class="seq-row">
+            <!-- This is where the js will populate the inputs for the melody rows -->
+        </div>
+
+
+
+
+
+
     </div>
 
-    <div class="touch-int">
+    <div class="touch-int col-6">
         <div id="buttonLand">
             <h3>Button Land</h3>
             <button id="channel1">empty</button>
