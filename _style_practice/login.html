@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <title>vibez seq</title>
+</head>
+
+<body>
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
+          <h1 class="mb-3">Welcome to viBlockz</h1>
+          <h4 class="mb-3"> Your one stop digital audio workstation</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Existing user - Welcome Back!</h2>
+
+            <form class="form login-form">
+                <div class="form-group">
+                    <label for="username-login">Username:</label>
+                    <input class="form-input" type="text" id="username-login" />
+                </div>
+                <div class="form-group">
+                    <label for="password-login">password:</label>
+                    <input class="form-input" type="password" id="password-login" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">login</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h2>New User</h2>
+
+            <form class="form signup-form">
+                <div class="form-group">
+                    <label for="username-signup">Username:</label>
+                    <input class="form-input" type="text" id="username-signup" />
+                </div>
+                <div class="form-group">
+                    <label for="password-signup">password:</label>
+                    <input class="form-input" type="password" id="password-signup" />
+                </div>
+                <div class="form-group">
+                    <label for="password-signup">Confirm password:</label>
+                    <input class="form-input" type="password" id="confirm-password" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script src="app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.9/Tone.js"
+    integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ=="
+    crossorigin="anonymous"></script>
+
+</html>
