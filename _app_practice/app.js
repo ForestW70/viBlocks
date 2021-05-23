@@ -256,12 +256,7 @@ document.getElementById("playMel").addEventListener("click", async () => {
                 const osc = new Tone.Oscillator(440, "sawtooth").chain(reverb);
                 osc.frequency.value = `${note}3`;
 
-                
-
-
-                
-                
-
+    
                 const row = document.getElementById(`${note}Row`);
                 let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
                 if (iCheck.checked) {
@@ -287,5 +282,34 @@ document.getElementById("playMel").addEventListener("click", async () => {
     }
 
 
+})
+
+
+// SAVE/LOAD FUNCTIONS
+
+document.getElementById('save').addEventListener('click', (e) => {
+    const row1 = document.getElementById('seq-row1');
+    const row1Inputs = row1.querySelectorAll('input');
+    let onOffval = [];
+
+    row1Inputs.forEach(input => {
+        if(input.checked) {
+            onOffval.push(1);
+        } else {
+            onOffval.push(0);
+        }
+    })
+    let onOffString = onOffval.join("");
+    onOffString.replace(",", "")
+    localStorage.setItem('row1', onOffString);
+    console.log(onOffString);
+})
+
+document.getElementById('load').addEventListener('click', () => {
+    const string = "00101000-00100100-10001000-01010101";
+    const array = string.split("-");
+    console.log(array);
+
+    
 })
 
