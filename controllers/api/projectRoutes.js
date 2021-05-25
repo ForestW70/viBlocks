@@ -7,10 +7,8 @@ router.get('/', withAuth, async (req, res) => {
         const projects = projectData.map(each => each.get({ plain: true }));
 
         res.status(200).json(projects);
-        
-    }catch(e){
+    }catch(err){
         res.status(500).json(err);
-
     }
     
     
