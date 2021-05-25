@@ -7,30 +7,218 @@
 
 
 // drum kit objects that hold links to reference to mp3 files
-const bongoDrums = {
-    bon1: "https://tonejs.github.io/audio/drum-samples/Bongos/hihat.mp3",
-    bon2: "https://tonejs.github.io/audio/drum-samples/Bongos/kick.mp3",
-    bon3: "https://tonejs.github.io/audio/drum-samples/Bongos/snare.mp3",
-    bon4: "https://tonejs.github.io/audio/drum-samples/Bongos/tom1.mp3",
-    bon5: "https://tonejs.github.io/audio/drum-samples/Bongos/tom2.mp3",
-    bon6: "https://tonejs.github.io/audio/drum-samples/Bongos/tom3.mp3"
+
+const allTheKits = {
+    bongoDrums: [
+        { name: "bon1", src: "https://tonejs.github.io/audio/drum-samples/Bongos/hihat.mp3" },
+        { name: "bon2", src: "https://tonejs.github.io/audio/drum-samples/Bongos/kick.mp3" },
+        { name: "bon3", src: "https://tonejs.github.io/audio/drum-samples/Bongos/snare.mp3" },
+        { name: "bon4", src: "https://tonejs.github.io/audio/drum-samples/Bongos/tom1.mp3" },
+        { name: "bon5", src: "https://tonejs.github.io/audio/drum-samples/Bongos/tom2.mp3" },
+        { name: "bon6", src: "https://tonejs.github.io/audio/drum-samples/Bongos/tom3.mp3" }
+    ],
+    opfmDrums: [
+        { name: "kick", src: "https://tonejs.github.io/audio/drum-samples/4OP-FM/kick.mp3" },
+        { name: "snare", src: "https://tonejs.github.io/audio/drum-samples/4OP-FM/snare.mp3" },
+        { name: "hat", src: "https://tonejs.github.io/audio/drum-samples/4OP-FM/hihat.mp3" },
+        { name: "tom1", src: "https://tonejs.github.io/audio/drum-samples/4OP-FM/tom1.mp3" },
+        { name: "tom2", src: "https://tonejs.github.io/audio/drum-samples/4OP-FM/tom2.mp3" },
+        { name: "tom3", src: "https://tonejs.github.io/audio/drum-samples/4OP-FM/tom3.mp3" }
+    ],
+    acousticDrums: [
+        { name: "kick", src: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/kick.mp3" },
+        { name: "snare", src: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/snare.mp3" },
+        { name: "hat", src: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/hihat.mp3" },
+        { name: "tom1", src: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/tom1.mp3" },
+        { name: "tom2", src: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/tom2.mp3" },
+        { name: "tom3", src: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/tom3.mp3" }
+    ],
+    technoDrums: [
+        { name: "kick", src: "https://tonejs.github.io/audio/drum-samples/Techno/kick.mp3" },
+        { name: "snare", src: "https://tonejs.github.io/audio/drum-samples/Techno/snare.mp3" },
+        { name: "hat", src: "https://tonejs.github.io/audio/drum-samples/Techno/hihat.mp3" },
+        { name: "tom1", src: "https://tonejs.github.io/audio/drum-samples/Techno/tom1.mp3" },
+        { name: "tom2", src: "https://tonejs.github.io/audio/drum-samples/Techno/tom2.mp3" },
+        { name: "tom3", src: "https://tonejs.github.io/audio/drum-samples/Techno/tom3.mp3" }
+    ]
 }
 
-const technoDrums = {
-    hat: "https://tonejs.github.io/audio/drum-samples/Techno/hihat.mp3",
-    kick: "https://tonejs.github.io/audio/drum-samples/Techno/kick.mp3",
-    snare: "https://tonejs.github.io/audio/drum-samples/Techno/snare.mp3",
-    tom1: "https://tonejs.github.io/audio/drum-samples/Techno/tom1.mp3",
-    tom2: "https://tonejs.github.io/audio/drum-samples/Techno/tom2.mp3",
-    tom3: "https://tonejs.github.io/audio/drum-samples/Techno/tom3.mp3"
-}
+
+
+
+// DRUM SEQUENCER - linked to step sequencer
+
+let loadedKit = "technoDrums";
+
+let drumSeqInit = false;
+let playing = false;
+
+document.getElementById('play').addEventListener('click', async () => {
+    await Tone.start();
+
+    if (!drumSeqInit) {
+        console.log("playing sequencer...")
+
+        let index = 0;
+        // Tone.transport is the magic component that allows us to "schedule" each drum to be played if it is checked in the grid.
+        // it takes two arguments, the first is our repeat function below, and the second is the duration of time spend at each checkbox. (1/8th note)
+        // bpm.value is a number we can set that disctates just how long 1/8th note is. Dont worry about this number, just know the higher, the faster it will play.
+        Tone.Transport.scheduleRepeat(repeat, '8n');
+        Tone.Transport.bpm.value = 133;
+
+        function repeat() {
+
+            let step = index % 8;
+            const reverb = new Tone.Reverb(reverbLevel)
+            const dist = new Tone.Distortion(distortionLevel);
+            const pingPong = new Tone.PingPongDelay(pingDelay, pingFeedback).toDestination();
+
+            allTheKits[loadedKit].forEach(drum => {
+                const drumPlayer = new Tone.Player(drum.src).chain(reverb, dist, pingPong);
+                const row = document.getElementById(`${drum.name}Row`);
+                let iCheck = row.querySelector(`input:nth-child(${step + 2})`);
+                if (iCheck.checked) {
+                    drumPlayer.autostart = true;
+                }
+            })
+
+            index++;
+
+
+        }
+        // mark sequencer as initialized
+        drumSeqInit = true;
+    }
+
+    // if sequencer is currently active, stop sequencer and change play to false
+    // if sequecer is paused (play = false), unpause the sequencer and set play to true.
+    if (playing) {
+        Tone.Transport.stop();
+        playing = false;
+    } else {
+        Tone.Transport.start();
+        playing = true;
+    }
+
+})
 
 
 
 
 
+// MELODY SEQUENCER
+
+// arrays that represent a scale of notes.
+const notes = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+const cMajScale = ["A", "B", "C", "D", "E", "F", "G"];
+const cMinScale = ["A#", "B#", "C", "D", "E#", "F", "G"];
+
+// pause/play control
+let melSeqInit = false;
 
 
+
+// for each note in the scale, construct a row for the step inputs and append.
+// id is used to mark each box, but may not be needed.
+cMajScale.forEach(note => {
+    const melContainer = document.getElementById("mel-container");
+    const pitchRow = document.createElement('div');
+    pitchRow.id = `${note}Row`;
+    melContainer.appendChild(pitchRow);
+
+    // for loop that creates the 8 steps in the sequencer row.
+    for (let i = 1; i < 9; i++) {
+        const stepInput = document.createElement('input');
+        stepInput.type = "checkbox";
+        stepInput.id = note + "-" + i;
+        pitchRow.appendChild(stepInput);
+    }
+
+    // create note label for each row.
+    const rowHead = document.createElement("span");
+    rowHead.innerText = note;
+    pitchRow.appendChild(rowHead);
+})
+
+// setting up sequencer functionality for every input.
+document.getElementById("playMel").addEventListener("click", async () => {
+    await Tone.start();
+
+    if (!melSeqInit) {
+        console.log("melody sequencer playing...");
+
+        let index = 0;
+        Tone.Transport.scheduleRepeat(repeat, "8n")
+        Tone.Transport.bpm.value = 133;
+
+        function repeat() {
+            // Tone.context = new AudioContext();
+            let step = index % 8;
+
+            // for each note in scale array, create a new instrument and tune it according to the note from the array.
+            // the .chain() method allows us to attach effects to sounds.
+            cMajScale.forEach(note => {
+                const reverb = new Tone.Reverb(1).toDestination();
+                const osc = new Tone.Oscillator(440, "sawtooth").chain(reverb);
+                osc.frequency.value = `${note}3`;
+
+                // target noteRow for each note and select all input children to create a checker for sound.
+                const row = document.getElementById(`${note}Row`);
+                let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
+                if (iCheck.checked) {
+                    osc.start().stop("+0.1");
+                }
+            })
+            index++;
+            // Tone.context.close();
+        }
+
+        melSeqInit = true;
+    }
+
+    if (playing) {
+        Tone.Transport.stop();
+        playing = false;
+    } else {
+        Tone.Transport.start();
+        playing = true;
+    }
+
+
+})
+
+
+// SAVE/LOAD FUNCTIONS
+
+// select all inputs in a row, then create an empty array to store our data.
+document.getElementById('save').addEventListener('click', (e) => {
+    const row1 = document.getElementById('seq-row1');
+    const row1Inputs = row1.querySelectorAll('input');
+    let onOffval = [];
+
+    // for each input, see if it is checked or unchecked. checked will return "1", unchecked will return "0".
+    // what will push to our array is an 8 digit number that will look like "["1","0","0",...]". this represents whats checked and whats not.
+    row1Inputs.forEach(input => {
+        if (input.checked) {
+            onOffval.push(1);
+        } else {
+            onOffval.push(0);
+        }
+    })
+
+    // these lines turn our array into plain text for storage. "10001000"
+    let onOffString = onOffval.join("");
+    onOffString.replace(",", "")
+    console.log(onOffString);
+})
+
+document.getElementById('load').addEventListener('click', () => {
+    const string = "00101000-00100100-10001000-01010101";
+    const array = string.split("-");
+    console.log(array);
+
+
+})
 
 
 
@@ -89,227 +277,145 @@ document.getElementById('channel4').addEventListener('click', async () => {
 document.getElementById('channel5').addEventListener('click', async () => {
     await Tone.start();
     console.log("pew");
+    console.log(reverbLevel);
+    console.log(distortionLevel);
+    console.log(pingDelay);
+    console.log(pingFeedback);
 
     // there are also pre-made synth objects with their own sound qualities.
     // We chaned "Synth" to "MembraneSynth", but you can also try "PluckSynth", and "DuoSynth" to name a few.
-    const synth = new Tone.MembraneSynth().toDestination();
+    const reverb = new Tone.Reverb(reverbLevel)
+    const dist = new Tone.Distortion(distortionLevel);
+    const pingPong = new Tone.PingPongDelay(pingDelay, pingFeedback).toDestination();
+    const synth = new Tone.MembraneSynth().chain(reverb, dist, pingPong);
     synth.triggerAttackRelease("C#4", "8n");
 
 })
 
-// Try creating your own sound! Do note that you can have more than one sound play at a time. (but it might be loud so beware.)
+// This channel plays the oscillator instrument
 document.getElementById('channel6').addEventListener('click', async () => {
+    await Tone.start();
+    console.log("osc");
+
+    // osc is similar to Synth, but with osc you start with a pure tone(like a sine wave)
+    // we can also add effects by creating new instances of the effect, and using .chain() to attach them to the instrument.
+    // this sound is triggered by the use of .start/.stop. the argument .stop takes is the duration of the note to be played. (like 8n)
+    const reverb = new Tone.Reverb(reverbLevel)
+    const dist = new Tone.Distortion(distortionLevel).toDestination();
+    const osc = new Tone.Oscillator(440, "sawtooth").chain(reverb, dist);
+    osc.frequency.value = "c3";
+    osc.start().stop("+0.1");
+
+
+})
+
+// Try creating your own sound! Do note that you can have more than one sound play at a time. (but it might be loud so beware.)
+document.getElementById('channel7').addEventListener('click', async () => {
     await Tone.start();
     console.log("empty channel");
 
 
 })
 
+let reverbLevel = 0.1;
+let distortionLevel = 0.1;
+let pingDelay = 0.01;
+let pingFeedback = 0.01;
+let compressorThresh = -20;
+let compressorRatio = 6;
+
+function setReverb(lvl) {
+    reverbLevel = lvl;
+}
+
+function setDistortion(lvl) {
+    distortionLevel = lvl;
+}
+
+function setPingDelay(lvl) {
+    pingDelay = lvl;
+}
+
+function setPingFeedback(lvl) {
+    pingFeedback = lvl;
+    console.log(pingFeedback)
+}
+
+
+
+// drum inputs based on a kit selector, effect selector.
+
+// function takes in the selected drumkit option from the HTML page, and finds it in the "allTheKits" object to use.
+function drumGen(drumKit) {
+    const pushBox = document.getElementById("pushDrums");
+    pushBox.innerHTML = "";
+    loadedKit = drumKit;
+
+
+    // this 
+    allTheKits[drumKit].forEach(drum => {
+        const drumRow = document.createElement("div");
+        // drumRow.id = drum.name + "Row";
+        const rowHead = document.createElement("span");
+        rowHead.innerText = drum.name;
+
+        for (let i = 0; i < 8; i++) {
+            const stepInput = document.createElement('input');
+            stepInput.type = "checkbox";
+            drumRow.appendChild(stepInput);
+        }
+
+        drumRow.appendChild(rowHead);
+        pushBox.appendChild(drumRow);
+    })
+
+    createSequence(drumKit);
+}
 
 
 
 
+function createSequence(drumKit) {
+    document.getElementById("drumStepPlay").addEventListener("click", async () => {
+        await Tone.start();
 
+        if (!drumSeqInit) {
+            console.log("drum sequencer playing...");
 
+            let index = 0;
+            Tone.Transport.scheduleRepeat(repeat, "8n")
+            Tone.Transport.bpm.value = 133;
 
+            function repeat() {
+                let step = index % 8;
 
-// DRUM SEQUENCER - linked to step sequencer
+                const reverb = new Tone.Reverb(reverbLevel) || 0;
+                const dist = new Tone.Distortion(vibratoLevel) || 0;
+                const volume =
 
-// these variables are used to control the pause/play button. they are used to control the logic within the click function.
-let drumSeqInit = false;
-let playing = false;
+                    allTheKits[drumKit].forEach(drum => {
+                        const drumPlayer = new Tone.Player(drum.src);
+                        drumPlayer.chain(reverb, dist).toDestination();
+                        const row = document.getElementById(`${drum.name}Row`);
+                        let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
+                        if (iCheck.checked) {
+                            drumPlayer.autostart = true;
+                        }
 
-
-// this function begins with the same async/await boilerplate code linked to the "play" button.
-document.getElementById('play').addEventListener('click', async () => {
-    await Tone.start();
-
-
-    // if sequencer has not been initialized yet
-    if (!drumSeqInit) {
-        console.log("playing sequencer...")
-
-        let index = 0;
-        // Tone.transport is the magic component that allows us to "schedule" each drum to be played if it is checked in the grid.
-        // it takes two arguments, the first is our repeat function below, and the second is the duration of time spend at each checkbox. (1/8th note)
-        // bpm.value is a number we can set that disctates just how long 1/8th note is. Dont worry about this number, just know the higher, the faster it will play.
-        Tone.Transport.scheduleRepeat(repeat, '8n');
-        Tone.Transport.bpm.value = 133;
-
-        // in our repeat function, each action will be done 6 times, because we want 6 seperate drums to play using our 6 created rows.
-        function repeat() {
-
-            // this line is just to show that their are 8 inputs in each row, and after the 8th input, return to the first input.
-            // if our rows has 16 squares instead of 8, we would do "% 16".
-            let step = index % 8;
-
-            // assigning our drums using our drumkit object
-            const drum1 = new Tone.Player(technoDrums.hat).toDestination();
-            const drum2 = new Tone.Player(technoDrums.kick).toDestination();
-            const drum3 = new Tone.Player(technoDrums.snare).toDestination();
-            const drum4 = new Tone.Player(technoDrums.tom1).toDestination();
-            const drum5 = new Tone.Player(technoDrums.tom2).toDestination();
-            const drum6 = new Tone.Player(technoDrums.tom3).toDestination();
-
-            // targeting each row-container in the step sequencer
-            const row1 = document.getElementById("seq-row1");
-            const row2 = document.getElementById("seq-row2");
-            const row3 = document.getElementById("seq-row3");
-            const row4 = document.getElementById("seq-row4");
-            const row5 = document.getElementById("seq-row5");
-            const row6 = document.getElementById("seq-row6");
-
-
-            // these targets are how Tone.transport knows which square in the row that the sequencer is at. 
-            // step = current square. +1 since step starts at 0 instead of 1, and +1 since the first child in our seq-row is <h3> instead of input, so step + 2 skips these first two positions.
-            let iCheck1 = row1.querySelector(`input:nth-child(${step + 2})`);
-            let iCheck2 = row2.querySelector(`input:nth-child(${step + 2})`);
-            let iCheck3 = row3.querySelector(`input:nth-child(${step + 2})`);
-            let iCheck4 = row4.querySelector(`input:nth-child(${step + 2})`);
-            let iCheck5 = row5.querySelector(`input:nth-child(${step + 2})`);
-            let iCheck6 = row6.querySelector(`input:nth-child(${step + 2})`);
-
-            // if the box is checked when the our tracker (icheck) arrives at the next box, play drum sound.
-            if (iCheck1.checked) {
-                drum1.autostart = true;
+                    })
+                index++;
             }
-            if (iCheck2.checked) drum2.autostart = true;
-            if (iCheck3.checked) drum3.autostart = true;
-            if (iCheck4.checked) drum4.autostart = true;
-            if (iCheck5.checked) drum5.autostart = true;
-            if (iCheck6.checked) drum6.autostart = true;
-
-            // itterate through our row.
-            index++;
-
-        }
-        // mark sequencer as initialized
-        drumSeqInit = true;
-    }
-
-    // if sequencer is currently active, stop sequencer and change play to false
-    // if sequecer is paused (play = false), unpause the sequencer and set play to true.
-    if (playing) {
-        Tone.Transport.stop();
-        playing = false;
-    } else {
-        Tone.Transport.start();
-        playing = true;
-    }
-
-})
-
-
-
-
-
-// MELODY SEQUENCER
-
-const notes = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
-
-const cMajScale = ["A", "B", "C", "D", "E", "F", "G"];
-
-const cMinScale = ["A#", "B#", "C", "D", "E#", "F", "G"];
-
-let melSeqInit = false;
-// let playing = false;
-
-
-cMajScale.forEach(note => {
-    const pitchRow = document.createElement('div');
-    pitchRow.id = `${note}Row`;
-    const melContainer = document.getElementById("mel-container");
-    
-    melContainer.appendChild(pitchRow);
-
-
-    for (let i = 1; i < 9; i++) {
-        const stepInput = document.createElement('input');
-        stepInput.type = "checkbox";
-        stepInput.id = note + "-" + i;
-        pitchRow.appendChild(stepInput);
-    }
-    const rowHead = document.createElement("span");
-    rowHead.innerText = note;
-    pitchRow.appendChild(rowHead);
-})
-
-document.getElementById("playMel").addEventListener("click", async () => {
-    await Tone.start();
-
-
-    if (!melSeqInit) {
-        console.log("melody sequencer playing...");
-
-        let index = 0;
-        Tone.Transport.scheduleRepeat(repeat, "8n")
-        Tone.Transport.bpm.value = 133;
-
-        function repeat() {
-            let step = index % 8;
-
-            cMajScale.forEach(note => {
-                const synth = new Tone.Synth().toDestination();
-                synth.oscillator.type = "triangle";
-
-                const reverb = new Tone.Reverb(1).toDestination();
-                const osc = new Tone.Oscillator(440, "sawtooth").chain(reverb);
-                osc.frequency.value = `${note}3`;
-
-    
-                const row = document.getElementById(`${note}Row`);
-                let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
-                if (iCheck.checked) {
-                    // synth.triggerAttackRelease(`${note}4, 16n`);
-                    osc.start().stop("+0.1");
-                }
-            })
-            index++;
+            drumSeqInit = true;
         }
 
-
-
-
-        melSeqInit = true;
-    }
-
-    if (playing) {
-        Tone.Transport.stop();
-        playing = false;
-    } else {
-        Tone.Transport.start();
-        playing = true;
-    }
-
-
-})
-
-
-// SAVE/LOAD FUNCTIONS
-
-document.getElementById('save').addEventListener('click', (e) => {
-    const row1 = document.getElementById('seq-row1');
-    const row1Inputs = row1.querySelectorAll('input');
-    let onOffval = [];
-
-    row1Inputs.forEach(input => {
-        if(input.checked) {
-            onOffval.push(1);
+        if (playing) {
+            Tone.Transport.stop();
+            playing = false;
         } else {
-            onOffval.push(0);
+            Tone.Transport.start();
+            playing = true;
         }
     })
-    let onOffString = onOffval.join("");
-    onOffString.replace(",", "")
-    localStorage.setItem('row1', onOffString);
-    console.log(onOffString);
-})
+}
 
-document.getElementById('load').addEventListener('click', () => {
-    const string = "00101000-00100100-10001000-01010101";
-    const array = string.split("-");
-    console.log(array);
-
-    
-})
 
