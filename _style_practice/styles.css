@@ -4,6 +4,30 @@ body {
     /* background-position: center; */
     /* background-repeat: no-repeat; */
     background-size: cover;
+    font-family: "Audiowide", sans-serif;
     
 }
 
+.row {
+    width: 340px;
+    margin: 50px auto;
+    margin-bottom: 15px;
+    /* background: #f7f7f7; */
+    box-shadow: 14px 7px 11px rgb(61 20 34 / 61%);
+    padding: 30px;
+    margin: 0 0 15px;
+}
+
+.row, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+.btn {        
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.transparent-input {
+    background-color: rgba(0, 0, 0, 0);
+    border:none;
+ }
