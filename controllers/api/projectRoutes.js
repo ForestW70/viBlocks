@@ -44,3 +44,17 @@ router.get('/:id', withAuth, async (req, res) => {
       res.status(500).json(err);
     }
   });
+
+
+router.post('/', withAuth, async (req, res) => {
+    try {
+      const newProject = await Project.create({
+        name: req.body.name,
+        notes: req.body.notes,
+        user_id: req.session.user_id
+      });
+      res.status(200).json(newProject);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+});
