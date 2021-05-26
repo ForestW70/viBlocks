@@ -45,3 +45,9 @@ body {
     background-color: rgba(0, 0, 0, 0);
     border:none;
  }
+
+ .container .btn {
+    color: #fff;
+    background-color: #2a2c2d;
+    border-radius: 33px;
+ }
