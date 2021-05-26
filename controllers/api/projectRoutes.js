@@ -19,8 +19,7 @@ router.get('/:id', withAuth, async (req, res) => {
     try {
       const projectData = await Project.findOne({
         where: {
-          id: req.params.id,
-          user_id: req.session.user_id,
+          id: req.params.id
         },
       });
   
@@ -29,15 +28,8 @@ router.get('/:id', withAuth, async (req, res) => {
         return;
       }
 
-      //10100000-10100000-10100000-10100000-10100000-10100000   ?      10100000-1010000010100000-10100000-10100000-10100000-10100000-10100000
-
-      let arrDrums = JSON.parse(projectData.content.split("?")[0]);
-      let arrMel = JSON.parse(projectData.content.split("?")[1]);
-
       res.status(200).json(projectData);
       res.render('project', { 
-        arrDrums, 
-        arrMel,
         logged_in: req.session.logged_in 
       });
     } catch (err) {
@@ -51,6 +43,12 @@ router.post('/', withAuth, async (req, res) => {
       const newProject = await Project.create({
         name: req.body.name,
         notes: req.body.notes,
+        melody: req.body.melody,
+        kits: req.body.kits,
+        reverb: req.body.reverb,
+        distortion: req.body.distortion,
+        pingDelay: req.body.pingDelay,
+        pingFeedback: req.body.pingFeedback,
         user_id: req.session.user_id
       });
       res.status(200).json(newProject);
