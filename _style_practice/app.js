@@ -198,7 +198,7 @@ document.getElementById('play').addEventListener('click', async () => {
     }
 
 })
-
+ 
 
 
 // MELODY SEQUENCER

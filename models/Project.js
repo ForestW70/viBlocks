@@ -11,13 +11,6 @@ Project.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    notes: {
-      type: DataTypes.STRING,
-    },
     user_id: {
       type: DataTypes.INTEGER,
       references: {
@@ -25,6 +18,63 @@ Project.init(
         key: 'id',
       },
     },
+    song_artist: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    song_title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    song_description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    song_card_color: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    drum_kit: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    drum_sequencer_steps: {
+      type: DataTypes.STRING,
+    },
+    reverb_val: {
+      type: DataTypes.INTEGER,
+    },
+    distortion_val: {
+      type: DataTypes.DECIMAL(10,2),
+    },
+    delay_val: {
+      type: DataTypes.DECIMAL(10,2),
+    },
+    feedback_val: {
+      type: DataTypes.DECIMAL(10,2),
+    },
+    melody_is_on: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    melody_sequencer_steps: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    melody_reverb_val: {
+      type: DataTypes.INTEGER,
+    },
+    melody_effect_val: {
+      type: DataTypes.DECIMAL(10,2),
+    },
+    compressor_val: {
+      type: DataTypes.DECIMAL(10,2),
+    },
+    bpm_val: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    
   },
   {
     sequelize,

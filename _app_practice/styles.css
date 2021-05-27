@@ -7,6 +7,37 @@ span {
 }
 
 input {
-    margin: 3px 1px 3px 1px;
+    margin: 10px 8px;
+    transform: scale(2);
+    padding: 10px;
+
+}
+
+#bigContainer {
+    margin-left: 25px;
+}
+
+#kitChoice p {
+    display: none;
+    background-color: blanchedalmond;
+}
+
+.log-vals div span {
+    text-decoration: underline;
+    color: black;
+}
+
+#stLog, #saLog, #sdLog, #dkvLog, #rvLog, #dvLog, #ppdvLog, #ppfvLog {
+    text-decoration: none;
+    color: red;
+    font-size: .9rem;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
 }
 
