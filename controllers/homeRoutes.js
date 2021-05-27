@@ -1,6 +1,13 @@
 const router = require('express').Router();
-const { Project } = require('../models');
+const { request } = require('express');
+const { Project, User } = require('../models');
 const withAuth = require('../utils/auth');
+
+router.get('/gimme', (req, res) => {
+  Project.findAll().then((projData) => {
+    res.json(projData);
+  });
+});
 
 // Prevent non logged in users from viewing the homepage
 router.get('/', withAuth, async (req, res) => {
@@ -32,5 +39,23 @@ router.get('/login', (req, res) => {
 
   res.render('login');
 });
+
+router.get('/user-dash', withAuth, async (req, res) => {
+  try {
+
+    const userData = await Project.find({
+      where: { user_id: req.session.user_id },
+      include: [User]
+    });
+
+    const userProjects = userData.map(project => project.get({ plain: true }));
+
+    res.render('homepage', { userProjects });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
+
 
 module.exports = router;

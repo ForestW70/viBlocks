@@ -1,3 +1,5 @@
+
+
 // drum kit objects that hold links to reference to mp3 files
 const allTheKits = {
     breakbeat8Drums: [
@@ -72,6 +74,8 @@ let loadUrl = ""; //could be unique project ID
 // let pingPong;
 
 
+const syn = new Tone.Synth();
+syn.triggerAttackRelease("c4", "8n");
 
 
 // DRUM SEQUENCER - create sequencer
@@ -116,6 +120,7 @@ function createSequence(drumKit) {
             console.log("playing sequencer...")
 
             let index = 0;
+
             Tone.Transport.scheduleRepeat(repeat, '8n');
             Tone.Transport.bpm.value = 133;
 
@@ -127,6 +132,7 @@ function createSequence(drumKit) {
                 let step = index % 8;
 
                 allTheKits[drumKit].forEach(drum => {
+
                     const drumPlayer = new Tone.Player(drum.src).connect(vol).chain(reverb, dist, pingPong);
                     const row = document.getElementById(`${drum.name}Row`);
                     let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
@@ -164,7 +170,7 @@ function createSequence(drumKit) {
 // }
 const setReverb = (lvl) => {
     reverbLevel = lvl;
-    // reverb = new Tone.Reverb(lvl);
+    reverb = new Tone.Reverb(lvl);
     console.log(`set reverb to: ${lvl}`);
 };
 const setDistortion = (lvl) => {
