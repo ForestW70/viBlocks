@@ -23,15 +23,23 @@
 
 <body id="bigContainer" class="row">
     <div class="sequencer col-6">
+
+        {{!-- drum sequencer --}}
         <h3>Drum Sequencer</h3>
         <button id="play">play/pause</button>
         <button id="save">save</button>
         <button id="goBack">back to projects</button>
 
-        <span id="nowPlaying"></span>
+
+        {{!-- if there are steps loaded in, create blank div and use js function to populate a grid --}}
+        {{#if drum_sequencer_step}}
+        <div id="pushDrums"></div>  
+
+        {{!-- if there arent steps loaded in, have grid pre-loaded --}}
+        {{else}}
         <div id="pushDrums">
             <div id="kickRow" class="seq-row">
-                <input type="checkbox">
+                <input id="test" type="checkbox">
                 <input type="checkbox">
                 <input type="checkbox">
                 <input type="checkbox">
@@ -97,10 +105,20 @@
                 <span>Tom 3</span>
             </div>
         </div>
+        {{/if}}
         
 
+
+        {{!-- Melody sequencer --}}
         <h3 class="">Melody Sequencer</h3>
         <button id="melOnOff">activate melody</button>
+
+
+        {{!-- same with melody --}}
+        {{#if melody_sequencer_steps}}
+        <div id=pushMelody></div>
+
+        {{else}}
         <div class="hide" id="pushMelody">
             <div id="A#Row" class="seq-row">
                 <input type="checkbox">
@@ -180,6 +198,7 @@
                 <span>G</span>
             </div>
         </div>
+        {{/if}}
     </div>
 
     <div class="touch-int col-6">
@@ -241,36 +260,43 @@
                 <div>
                     <div class="show">
                         <span>Song title:</span>
-                        <span id="stLog"></span>
+                        <span id="stLog">{{song_title}}</span>
+
                         <span>Song artist:</span>
-                        <span id="saLog"></span>
+                        <span id="saLog">{{song_artist}}</span>
+
                         <span>Song description:</span>
-                        <span id="sdLog"></span>
+                        <span id="sdLog">{{song_description}}</span>
                     </div>
                     <div class="show">
                         <span>Drum kit:</span>
-                        <span id="dkvLog"></span>
+                        <span id="dkvLog">{{drum_kit}}</span>
+
                         <span>Reverb value:</span>
-                        <span id="rvLog"></span>
+                        <span id="rvLog">{{reverb_val}}</span>
+
                         <span>Distortion value:</span>
-                        <span id="dvLog"></span>
+                        <span id="dvLog">{{distortion_val}}</span>
+
                         <span>Delay value:</span>
-                        <span id="ppdvLog"></span>
+                        <span id="ppdvLog">{{delay_val}}</span>
+
                         <span>Feedback value:</span>
-                        <span id="ppfvLog"></span>
+                        <span id="ppfvLog">{{feedback_val}}</span>
+
                         <span>Melody reverb value:</span>
-                        <span id="mrvLog"></span>
+                        <span id="mrvLog">{{melody_reverb_val}}</span>
+
                         <span>Melody effect value:</span>
-                        <span id="mevLog"></span>
-                        <div id="grid"></div>
+                        <span id="mevLog">{{melody_effect_val}}</span>
+
                     </div>
                     <div class="hide">
-                        <span id="volLog"></span>
-                        <span id="drumSeqLog"></span>
-                        <span id="melodyIsOn"></span>
-                        <span id="melodySeqLog"></span>
-                        <span id="cvLog"></span>
-                        <span id="bpmLog"></span>
+                        <span id="drumSeqLog">{{drum_sequencer_steps}}</span>
+                        <span id="melodyIsOn">{{melody_is_on}}</span>
+                        <span id="melodySeqLog">{{melody_sequencer_steps}}</span>
+                        <span id="cvLog">{{compressor_val}}</span>
+                        <span id="bpmLog">{{bpm_val}}</span>
                         
 
                     </div>
@@ -286,6 +312,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.9/Tone.js"
 integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ=="
 crossorigin="anonymous"></script>
-<script src="app.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/add-project.js"></script>
 
 </html>
