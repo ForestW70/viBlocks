@@ -1,12 +1,12 @@
 [
 	{
 		"user_id" : 3,
+		"song_artist" : "forest",
 		"song_title" : "my new song",
 		"song_description" : "here is the description for our song",
 		"song_card_color" : "red",
 		"drum_kit" : "technoDrums",
 		"drum_sequencer_steps" : "00101001-00010001-01011010-00000100-01000000-10101010",
-		"effects_is_on" : 1,
 		"reverb_val" : 1,
 		"distortion_val" : 0.25,
 		"delay_val" : 0.10,
@@ -15,18 +15,17 @@
 		"melody_sequencer_steps" : null,
 		"melody_reverb_val" : null,
 		"melody_effect_val" : null,
-		"volume_val" : 0.00,
 		"compressor_val" : null,
 		"bpm_val" : 133
 	},
 	{
 		"user_id" : 3,
+		"song_artist" : "forest",
 		"song_title" : "great 8 loop",
 		"song_description" : "looooooooooooooooooooooooooop",
 		"song_card_color" : "blue",
 		"drum_kit" : "opfmDrums",
 		"drum_sequencer_steps" : "01001100-00010001-01011010-00101001-00000100-10101010",
-		"effects_is_on" : 0,
 		"reverb_val" : null,
 		"distortion_val" : null,
 		"delay_val" : null,
@@ -35,18 +34,17 @@
 		"melody_sequencer_steps" : null,
 		"melody_reverb_val" : null,
 		"melody_effect_val" : null,
-		"volume_val" : 0.00,
 		"compressor_val" : 0.70,
 		"bpm_val" : 100
 	},
 	{
 		"user_id" : 3,
+		"song_artist" : "forest",
 		"song_title" : "next big song",
 		"song_description" : "here is the description for our song",
 		"song_card_color" : "red",
 		"drum_kit" : "technoDrums",
 		"drum_sequencer_steps" : "00101001-01000000-00010001-01011010-00000100-10101010",
-		"effects_is_on" : 1,
 		"reverb_val" : 1,
 		"distortion_val" : 0.25,
 		"delay_val" : 0.10,
@@ -55,7 +53,6 @@
 		"melody_sequencer_steps" : "00101001-01000000-10101010-00010001-01011010-00000100",
 		"melody_reverb_val" : 0,
 		"melody_effect_val" : 0.25,
-		"volume_val" : 0.00,
 		"compressor_val" : 0.50,
 		"bpm_val" : 140
 	}

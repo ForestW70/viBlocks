@@ -1,5 +1,4 @@
 
-
 // drum kit objects that hold links to reference to mp3 files
 const allTheKits = {
     breakbeat8Drums: [
@@ -53,172 +52,253 @@ const allTheKits = {
 }
 
 
-// global Variables
 
-// effects variables - these values will be stored
+// global active variables
+let songTitle = "practical loop";
+let songArtist = `"3"`;
+let songDescription = `''`;
 let loadedKit = "technoDrums";
+let volumeLevel = 0;
+let volume = new Tone.Volume(volumeLevel);
+
 let reverbLevel = 1;
-let distortionLevel = .01;
-let pingDelayLevel = .01;
-let pingFeedbackLevel = .01;
+let reverb = new Tone.Reverb(reverbLevel);
+reverb.wet.value = 0;
 
-window.onload = drumGen("technoDrums");
-
-// other stored values
-let songTitle = "My new Song";
-let userName = "username";
-let loadUrl = ""; //could be unique project ID
-
-// let reverb;
-// let dist;
-// let pingPong;
+let distortionLevel = .1;
+let dist = new Tone.Distortion(distortionLevel);
+dist.wet.value = 0;
 
 
-const syn = new Tone.Synth();
-syn.triggerAttackRelease("c4", "8n");
+let delayLevel = .01;
+let feedbackLevel = .01;
+let delay = new Tone.PingPongDelay(delayLevel, feedbackLevel).toDestination();
+delay.wet.value = 0;
+
+// melody variables
+let melIsOn = 'false';
+const cMinScale = ["A#", "B#", "C", "D", "D#", "F", "G"];
+const memSyn = new Tone.MembraneSynth().toDestination();
 
 
-// DRUM SEQUENCER - create sequencer
-function drumGen(drumKit) {
-    document.getElementById("nowPlaying").innerText = `now playing ${drumKit}`;
-    const pushBox = document.getElementById("pushDrums");
-    pushBox.innerHTML = "";
-    loadedKit = drumKit;
-    console.log(`selected drums: ${drumKit}`)
-
-    allTheKits[drumKit].forEach(drum => {
-        const drumRow = document.createElement("div");
-        drumRow.id = drum.name + "Row";
-        const rowHead = document.createElement("span");
-        rowHead.innerText = drum.name;
-
-        for (let i = 0; i < 8; i++) {
-            const stepInputs = document.createElement('input');
-            stepInputs.type = "checkbox";
-            drumRow.appendChild(stepInputs);
-        }
-
-        drumRow.appendChild(rowHead);
-        pushBox.appendChild(drumRow);
-    })
-
-    createSequence(drumKit);
-}
-
-
-
-// create sound for the sequencer
-let drumSeqInit = false;
-let playing = false;
-
-function createSequence(drumKit) {
-    document.getElementById('play').addEventListener('click', async () => {
-        await Tone.start();
-        const vol = new Tone.Volume(0).toDestination();
-
-        if (!drumSeqInit) {
-            console.log("playing sequencer...")
-
-            let index = 0;
-
-            Tone.Transport.scheduleRepeat(repeat, '8n');
-            Tone.Transport.bpm.value = 133;
-
-            function repeat() {
-                const reverb = new Tone.Reverb(reverbLevel)
-                const dist = new Tone.Distortion(distortionLevel);
-                const pingPong = new Tone.PingPongDelay(pingDelayLevel, pingFeedbackLevel).toDestination();
-
-                let step = index % 8;
-
-                allTheKits[drumKit].forEach(drum => {
-
-                    const drumPlayer = new Tone.Player(drum.src).connect(vol).chain(reverb, dist, pingPong);
-                    const row = document.getElementById(`${drum.name}Row`);
-                    let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
-                    if (iCheck.checked) {
-                        drumPlayer.autostart = true;
-                    }
-                    // dispose(drumPlayer);
-                })
-                index++;
-
-                // dispose(reverb);
-                let dispose = (instance) => {
-                    instance._wasDisposed = true;
-                    console.log(`${instance} disposed`)
-                    return instance;
-                }
-            }
-            drumSeqInit = true;
-        }
-
-        if (playing) {
-            Tone.Transport.stop();
-            playing = false;
-        } else {
-            Tone.Transport.start();
-            playing = true;
-        }
-
-    })
-}
-
-// const drumGen = (drumKit) => {
-//     loadedKit = drumKit;
-//     console.log(`selected drums: ${drumKit}`)
-// }
-const setReverb = (lvl) => {
-    reverbLevel = lvl;
-    reverb = new Tone.Reverb(lvl);
-    console.log(`set reverb to: ${lvl}`);
-};
-const setDistortion = (lvl) => {
-    distortionLevel = lvl;
-    // dist = new Tone.Distortion(lvl)
-    console.log(`set distortion to: ${lvl}`);
-};
-const setPingDelay = (lvl) => {
-    pingDelayLevel = lvl;
-    console.log(`set pingDelay to: ${lvl}`);
-};
-const setPingFeedback = (lvl) => {
-    pingFeedbackLevel = lvl;
-    // pingPong = new Tone.PingPongDelay(.05, lvl)
-    console.log(`set pingFeedback to: ${lvl}`);
-};
-
-
+// currently not linked
 let compressorThresh = -20;
 let compressorRatio = 6;
 
 
 
-// SAVE FUNCTION
+// target divs in html that our data will inititially be loaded into
+const titleLog = document.getElementById("stLog");
+const artistLog = document.getElementById("saLog");
+const descriptionLog = document.getElementById("sdLog");
+const drumKitLog = document.getElementById("dkvLog");
+const reverbLog = document.getElementById("rvLog");
+const distLog = document.getElementById("dvLog");
+const delayLog = document.getElementById("ppdvLog");
+const feedbackLog = document.getElementById("ppfvLog");
 
-// select all inputs in a row, then create an empty array to store our data.
-document.getElementById('save').addEventListener('click', (e) => {
-    const row1 = document.getElementById('kickRow');
-    const row1Inputs = row1.querySelectorAll('input');
-    let onOffval = [];
 
-    // for each input, see if it is checked or unchecked. checked will return "1", unchecked will return "0".
-    // what will push to our array is an 8 digit number that will look like "["1","0","0",...]". this represents whats checked and whats not.
-    row1Inputs.forEach(input => {
-        if (input.checked) {
-            onOffval.push(1);
+
+
+// on load event that will decide to load from save or to load from default
+// for finished product, it take the place of declaring default values from above.
+document.addEventListener("DOMContentLoaded", () => {
+
+    if (volumeLevel == 0) {
+        titleLog.innerText = songTitle;
+        artistLog.innerText = songArtist;
+        descriptionLog.innerText = songDescription;
+        drumKitLog.innerText = loadedKit;
+        reverbLog.innerText = reverbLevel;
+        distLog.innerText = distortionLevel;
+        delayLog.innerText = delayLevel;
+        feedbackLog.innerText = feedbackLevel;
+
+    } else {
+        titleLog.innerText = songTitle;
+        artistLog.innerText = songArtist;
+        descriptionLog.innerText = songDescription;
+        drumKitLog.innerText = loadedKit;
+        reverbLog.innerText = reverbLevel;
+        distLog.innerText = distortionLevel;
+        delayLog.innerText = delayLevel;
+        feedbackLog.innerText = feedbackLevel;
+    }
+
+});
+
+
+// sequencer variables
+let playButtonInit = false;
+let melSeqInit = false;
+let isPlaying = false;
+
+
+// function that handles both sequencers with some logic
+const linkSequencer = () => {
+    document.getElementById("play").addEventListener("click", async () => {
+        await Tone.start();
+
+        // if melody sequencer has not been turned on, only play drum sequencer
+        if (!melIsOn) {
+            // if this is the first time user presses play, run the drum sequencer function.
+            if (!playButtonInit) {
+                drumSeqOn();
+            }
+
+            // if play has already been pressed, use the "isPlaying" variable to control paused and unpaused.
+            if (isPlaying) {
+                Tone.Transport.stop();
+                isPlaying = false;
+            } else {
+                Tone.Transport.start();
+                isPlaying = true;
+            }
+        // if melody sequencer is turned on, play both sequencers together. 
         } else {
-            onOffval.push(0);
-        }
-    })
+            if (!playButtonInit) {
+                drumSeqOn();
+                melSeqOn();
+            }
+            
+            if (isPlaying) {
+                Tone.Transport.stop();
+                isPlaying = false;
+            } else {
+                Tone.Transport.start();
+                isPlaying = true;
+            }
 
-    // these lines turn our array into plain text for storage. "10001000"
-    let onOffString = onOffval.join("");
-    onOffString.replace(",", "")
-    console.log(onOffString);
+        }
+    });
+}
+linkSequencer();
+
+
+// turn on melody sequencer
+document.getElementById("melOnOff").addEventListener("click", () => {
+    document.getElementById("pushMelody").classList.remove("hide");
+    document.getElementById("melOnOff").classList.add("hide");
+    melIsOn = "true";
 })
 
 
 
 
 
+// functions that handle the drum and the melody sequencer asigning rows and playing sounds.
+function drumSeqOn() {
+    console.log("playing sequencer...");
+    let index = 0;
+    Tone.Transport.scheduleRepeat(repeat, '8n');
+    Tone.Transport.bpm.value = 133;
+
+    function repeat() {
+        let step = index % 8;
+        allTheKits[loadedKit].forEach(drum => {
+            const drumPlayer = new Tone.Player(drum.src)
+                .connect(volume)
+                .chain(reverb, dist, delay);
+            const row = document.getElementById(`${drum.name}Row`);
+            let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
+            if (iCheck.checked) {
+                drumPlayer.autostart = true;
+            }
+        });
+        index++;
+    }
+    playButtonInit = true;
+}
+
+function melSeqOn() {
+    console.log("melody sequencer playing...");
+    let index = 0;
+    Tone.Transport.scheduleRepeat(repeat, "8n")
+    Tone.Transport.bpm.value = 133;
+    function repeat() {
+        let step = index % 8;
+        cMinScale.forEach(note => {
+            const row = document.getElementById(`${note}Row`);
+            let iCheck = row.querySelector(`input:nth-child(${step + 1})`);
+            if (iCheck.checked) {
+                memSyn.triggerAttackRelease(`${note}3`, "16n");
+            }
+        })
+        index++;
+    }
+}
+
+
+
+
+
+// switchers - these functions are assigned in the html as "onchange" attributes in their respective selector.
+// based on user selections from the drop down menus, re-assign the global active variables to match the user input.
+function drumGen(drumKit) {
+    drumKitLog.innerText = drumKit;
+    loadedKit = drumKit;
+    console.log(`selected drums: ${drumKit}`)
+
+}
+
+const setReverb = (lvl) => {
+    if (lvl == 0) {
+        reverbLevel = 1;
+        reverb = new Tone.Reverb(1);
+        reverb.wet.value = 0;
+        console.log(`set reverb to: off`);
+        reverbLog.innerText = "off"
+    } else {
+        reverbLevel = lvl;
+        reverb = new Tone.Reverb(lvl);
+        reverb.wet.value = 1;
+        console.log(`set reverb to: ${lvl}`);
+        reverbLog.innerText = lvl;
+    }
+};
+
+const setDistortion = (lvl) => {
+    if (lvl == 0) {
+        distortionLevel = .1;
+        dist = new Tone.Distortion(.1).toDestination();
+        dist.wet.value = 0;
+        console.log(`set distortion to: off`);
+        distLog.innerText = "off";
+    } else {
+        distortionLevel = lvl;
+        dist = new Tone.Distortion(lvl).toDestination();
+        dist.wet.value = 1;
+        console.log(`set distortion to: ${lvl}`);
+        distLog.innerText = lvl;
+    }
+};
+
+
+const setDelay = (lvl) => { //currently not linked
+    if (lvl == 0) {
+        delayLevel = .01;
+        delay = new Tone.PingPongDelay(delayLevel, feedbackLevel);
+        delay.wet.value = 0;
+        console.log(`set Delay to: off`);
+        delayLog.innerText = "off";
+    } else if (lvl > 0 && lvl < .25) {
+        delayLevel = lvl;
+        delay = new Tone.PingPongDelay(delayLevel, feedbackLevel);
+        delay.wet.value = 1;
+        console.log(`set Delay to: ${lvl}`);
+        delayLog.innerText = lvl;
+    } else if (lvl == .25) {
+        feedbackLevel = .25;
+        delay = new Tone.PingPongDelay(delayLevel, feedbackLevel);
+        console.log(`set Feedback to: off`);
+        feedbackLog.innerText = "off";
+    } else {
+        feedbackLevel = lvl;
+        delay = new Tone.PingPongDelay(delayLevel, feedbackLevel);
+        console.log(`set Feedback to: ${lvl}`);
+        feedbackLog.innerText = lvl;
+    }
+};
+
+
+console.log("load sucessful");

@@ -18,6 +18,10 @@ Project.init(
         key: 'id',
       },
     },
+    song_artist: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     song_title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -36,10 +40,6 @@ Project.init(
     },
     drum_sequencer_steps: {
       type: DataTypes.STRING,
-    },
-    effects_is_on: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
     },
     reverb_val: {
       type: DataTypes.INTEGER,
@@ -67,14 +67,10 @@ Project.init(
     melody_effect_val: {
       type: DataTypes.DECIMAL(10,2),
     },
-    volume_val: {
-      type: DataTypes.DECIMAL(10,2),
-      allowNull: false,
-    },
     compressor_val: {
       type: DataTypes.DECIMAL(10,2),
     },
-    reverb_val: {
+    bpm_val: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

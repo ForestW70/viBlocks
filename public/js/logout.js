@@ -13,18 +13,4 @@ const logout = async () => {
   }
 };
 
-const goToDash = async () => {
-  const response = await fetch('/users-dash', {
-    method: 'GET',
-    headers: { },
-  });
-
-  if (response.ok) {
-    document.location.replace('/users-dash');
-  } else {
-    alert(response.statusText);
-  }
-};
-
 document.querySelector('#logout').addEventListener('click', logout);
-document.getElementById('goTo').addEventListener('click', goToDash)
