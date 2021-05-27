@@ -1,62 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-    <title>vibez seq</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
+  <title>viBlocks</title>
 </head>
 
 <body>
-<div class="row">
-    <div class="col-auto">
-      <h2>Welcome, {{name}}!</h2>
-    </div>
+
+  <div class="col-auto">
+    <h2 class="text-center">Welcome, {{Username}}!</h2>
   </div>
+
+
+  <div class="container">
+    <!-- Trigger the modal with a button -->
+    <a href="./login.html" type="button" class="btn btn-secondary btn-lg pull-right">Logout</a>
+    <button type="button" class="btn btn-secondary btn-lg pull-right" data-toggle="modal" data-target="#newProjectModal">+ New Project</button>
+    
   
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <h3>Create a New Project:</h3>
-  
-      <form class="form new-project-form">
-        <div class="form-group">
-          <label for="project-name">Project name:</label>
-          <input class="form-input" type="text" id="project-name" name="project-name" />
+    <!-- Modal -->
+    <div class="modal fade" id="newProjectModal" tabindex="-1" aria-labelledby="newProjectLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newProjectLabel">Create a New Project:</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Project Name:</label>
+                <input type="text" class="form-control" id="project-name">
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Description:</label>
+                <textarea class="form-control" id="discription-text"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn">Create</button>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="project-desc">description:</label>
-          <textarea class="form-input" id="project-desc" name="project-desc"></textarea>
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary">Create</button>
-        </div>
-      </form>
+      </div>
     </div>
-  
+    
+  </div>
+
+  <!-- Current Projects -->
+  <div class="row3">
     {{#if projects.length}}
     <div class="col-md-6 project-list">
       <h3>Current Projects:</h3>
-  
+
       {{#each projects as |project|}}
       <div class="row mb-2">
         <div class="col-md-8">
           <h4><a href="/project/{{project.id}}">{{project.name}}</a></h4>
         </div>
         <div class="col-md-4">
-          <button class="btn btn-sm btn-danger" data-id="{{project.id}}">DELETE</button>
+          <button class="btn btn-sm bg-warning" data-id="{{project.id}}">DELETE</button>
         </div>
       </div>
       {{/each}}
     </div>
     {{/if}}
   </div>
+  </div>
 </body>
-  
+
 <script src="app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.9/Tone.js"
-    integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ=="
-    crossorigin="anonymous"></script>
+  integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ=="
+  crossorigin="anonymous"></script>
 
-  
+
 </html>
