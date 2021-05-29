@@ -1,0 +1,60 @@
+ <div class="col-auto">
+    <h2 class="text-center">Welcome, {{Username}}!</h2>
+  </div>
+
+
+  <div class="container">
+    <!-- Trigger the modal with a button -->
+    <a href="./login.html" type="button" class="btn btn-secondary btn-lg pull-right">Logout</a>
+    <button type="button" class="btn btn-secondary btn-lg pull-right" data-toggle="modal" data-target="#newProjectModal">+ New Project</button>
+    
+  
+    <!-- Modal -->
+    <div class="modal fade" id="newProjectModal" tabindex="-1" aria-labelledby="newProjectLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newProjectLabel">Create a New Project:</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Project Name:</label>
+                <input type="text" class="form-control" id="project-name">
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Description:</label>
+                <textarea class="form-control" id="discription-text"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="create-project-button" class="btn">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- Current Projects -->
+  <div class="row3">
+    {{#if projects.length}}
+    <div class="col-md-6 project-list">
+      <h3>Current Projects:</h3>
+
+      {{#each projects as |project|}}
+      <div class="row mb-2">
+        <div class="col-md-8">
+          <h4><a href="/project/{{project.id}}">{{project.name}}</a></h4>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-sm bg-warning" data-id="{{project.id}}">DELETE</button>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+  </div>
