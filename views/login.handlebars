@@ -1,17 +1,53 @@
-<h2>Login</h2>
+<div class="d-flex justify-content-center align-items-center h-100">
+        <div class="text-white">
+          <h1 class="mb-3">Welcome to viBlocks</h1>
+          <h4 class="mb-3"> Your One Stop Digital Audio Workstation</h4>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 justify-content-center">
+                <h2>Existing user</h2>
 
-<form class="form login-form">
-  <div class="form-group">
-    <label for="username-login">username:</label>
-    <input class="form-input" type="text" id="username-login" />
-  </div>
-  <div class="form-group">
-    <label for="password-login">password:</label>
-    <input class="form-input" type="password" id="password-login" />
-  </div>
-  <div class="form-group">
-    <button class="btn btn-primary" type="submit">login</button>
-  </div>
-</form>
+                <form class="form login-form">
+                    <div class="form-group transparent-input">
+                        <label for="username-login">Username:</label>
+                        <input class="form-input" type="text" id="username-login" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password-login">password:</label>
+                        <input class="form-input" type="password" id="password-login" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn bg-info" type="submit">login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6 justify-content-center">
+                <h2>New User</h2>
+
+                <form class="form signup-form">
+                    <div class="form-group transparent-input">
+                        <label for="username-signup">Username:</label>
+                        <input class="form-input" type="text" id="username-signup" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password-signup">password:</label>
+                        <input class="form-input" type="password" id="password-signup" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password-signup">Confirm password:</label>
+                        <input class="form-input" type="password" id="confirm-password" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn bg-info" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>  
+        </div>
+    </div>
 
 <script src="/js/login.js"></script>
