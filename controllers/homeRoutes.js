@@ -40,16 +40,13 @@ router.get('/login', (req, res) => {
 
 router.get('/user-dash', withAuth, async (req, res) => {
   try {
-
     const userData = await Project.findAll({
-
       include: [
         {
           model: User,
           where: {
             user_id: req.session.user_id,
           }
-          
         }],
     });
 

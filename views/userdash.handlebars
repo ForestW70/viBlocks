@@ -3,7 +3,7 @@
   </div>
 
 
-{{filtered}}
+
 
   <div class="container">
     <!-- Trigger the modal with a button -->
@@ -47,14 +47,14 @@
       <h3>Current Projects:</h3>
 
       {{#each userProjects as |project|}}
-      <div class="row mb-2">
+      <div class="row mb-2"><a href="api/projects/{{project.song_id}}">
         <div class="col-md-8">
-          <h4><a href="/project/{{project.username}}">{{project.song_title}}</a></h4>
+          <h4>{{project.song_title}}</h4>
         </div>
         <div class="col-md-4">
-          <button class="btn btn-sm bg-warning" data-id="{{project.id}}">DELETE</button>
+          <button class="btn btn-sm bg-warning" data-id="{{project.song_id}}">DELETE</button>
         </div>
-      </div>
+      </a></div>
       {{/each}}
     </div>
     
