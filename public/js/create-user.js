@@ -18,4 +18,4 @@ const createUser = async () => {
     }
 }
 
-document.querySelector('.new-user-form').addEventListener('submit', createUser);
+document.getElementById("createUserBtn").addEventListener('submit', createUser);

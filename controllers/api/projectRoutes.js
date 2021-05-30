@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { User, Project } = require('../../models');
+const withAuth = require('../../utils/auth');
+
 
 router.get('/', withAuth, async (req, res) => {
     try{
@@ -91,3 +93,5 @@ router.patch('/:id', withAuth, async (req, res) => {
       res.status(500).json(err);
     }
 });
+
+module.exports = router;

@@ -1,7 +1,7 @@
 [
 	{
-		"user_id" : 3,
-		"song_artist" : "forest",
+		"user_id" : 1,
+		"username" : "forest",
 		"song_title" : "my new song",
 		"song_description" : "here is the description for our song",
 		"song_card_color" : "red",
@@ -19,8 +19,8 @@
 		"bpm_val" : 133
 	},
 	{
-		"user_id" : 3,
-		"song_artist" : "forest",
+		"user_id" : 1,
+		"username" : "forest",
 		"song_title" : "great 8 loop",
 		"song_description" : "looooooooooooooooooooooooooop",
 		"song_card_color" : "blue",
@@ -38,9 +38,28 @@
 		"bpm_val" : 100
 	},
 	{
-		"user_id" : 3,
-		"song_artist" : "forest",
+		"user_id" : 1,
+		"username" : "forest",
 		"song_title" : "next big song",
+		"song_description" : "here is the description for our song",
+		"song_card_color" : "red",
+		"drum_kit" : "technoDrums",
+		"drum_sequencer_steps" : "00101001-01000000-00010001-01011010-00000100-10101010",
+		"reverb_val" : 1,
+		"distortion_val" : 0.25,
+		"delay_val" : 0.10,
+		"feedback_val" : 0.25,
+		"melody_is_on" : 1,
+		"melody_sequencer_steps" : "00101001-01000000-10101010-00010001-01011010-00000100",
+		"melody_reverb_val" : 0,
+		"melody_effect_val" : 0.25,
+		"compressor_val" : 0.50,
+		"bpm_val" : 140
+	},
+	{
+		"user_id" : 4,
+		"username" : "sal",
+		"song_title" : "bigboogy",
 		"song_description" : "here is the description for our song",
 		"song_card_color" : "red",
 		"drum_kit" : "technoDrums",

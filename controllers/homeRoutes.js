@@ -3,59 +3,77 @@ const { request } = require('express');
 const { Project, User } = require('../models');
 const withAuth = require('../utils/auth');
 
-router.get('/gimme', (req, res) => {
-  Project.findAll().then((projData) => {
-    res.json(projData);
-  });
-});
 
 // Prevent non logged in users from viewing the homepage
 router.get('/', withAuth, async (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect('/user-dash');
+    return;
+  }
+
+
   try {
-    const userData = await Project.findAll({
-      where: {
-        user_id: req.session.user_id,
-      },
+    const userData = await User.findAll().catch(err => {
+      res.json(err)
     });
 
-    // const users = userData.map((project) => project.get({ plain: true }));
+    const users = userData.map((project) => project.get({ plain: true }));
 
-    res.render('homepage', {
-      userData,
-      // Pass the logged in flag to the template
-      logged_in: req.session.logged_in,
-    });
+    res.redirect('/user-dash');
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
+
 router.get('/login', (req, res) => {
   // If a session exists, redirect the request to the homepage
   if (req.session.logged_in) {
-    res.redirect('/');
+    res.redirect('/user-dash');
     return;
   }
 
   res.render('login');
 });
 
+
+
 router.get('/user-dash', withAuth, async (req, res) => {
   try {
 
-    const userData = await Project.find({
-      where: { user_id: req.session.user_id },
-      include: [User]
+    const userData = await Project.findAll({
+
+      include: [
+        {
+          model: User,
+          where: {
+            user_id: req.session.user_id,
+          }
+          
+        }],
     });
 
     const userProjects = userData.map(project => project.get({ plain: true }));
 
-    res.render('homepage', { userProjects });
+    res.render('userdash', { userProjects, username: req.session.username  } );
   } catch (err) {
     res.status(500).json(err);
   }
 })
 
+
+
+
+
+
+router.get('/app', async (req, res) => {
+  try {
+    res.render('app');
+  } catch {
+    res.status(500).json(err);
+  }
+
+})
 
 
 module.exports = router;

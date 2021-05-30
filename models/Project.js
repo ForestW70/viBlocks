@@ -5,7 +5,7 @@ class Project extends Model {}
 
 Project.init(
   {
-    id: {
+    song_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -15,10 +15,10 @@ Project.init(
       type: DataTypes.INTEGER,
       references: {
         model: 'user',
-        key: 'id',
+        key: 'user_id',
       },
     },
-    song_artist: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -40,6 +40,7 @@ Project.init(
     },
     drum_sequencer_steps: {
       type: DataTypes.STRING,
+      
     },
     reverb_val: {
       type: DataTypes.INTEGER,
@@ -59,7 +60,7 @@ Project.init(
     },
     melody_sequencer_steps: {
       type: DataTypes.STRING,
-      allowNull: false,
+      
     },
     melody_reverb_val: {
       type: DataTypes.INTEGER,
