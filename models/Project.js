@@ -32,15 +32,14 @@ Project.init(
     },
     song_card_color: {
       type: DataTypes.STRING,
-      allowNull: false,
+    //   allowNull: false,
     },
     drum_kit: {
       type: DataTypes.STRING,
-      allowNull: false,
+    //   allowNull: false,
     },
     drum_sequencer_steps: {
       type: DataTypes.STRING,
-      
     },
     reverb_val: {
       type: DataTypes.INTEGER,
@@ -56,11 +55,10 @@ Project.init(
     },
     melody_is_on: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+    //   allowNull: false,
     },
     melody_sequencer_steps: {
       type: DataTypes.STRING,
-      
     },
     melody_reverb_val: {
       type: DataTypes.INTEGER,
@@ -73,9 +71,8 @@ Project.init(
     },
     bpm_val: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+    //   allowNull: false,
     },
-    
   },
   {
     sequelize,

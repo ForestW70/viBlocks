@@ -4,9 +4,14 @@
 
         {{!-- drum sequencer --}}
         <h3>Drum Sequencer</h3>
-        <button id="play">play/pause</button>
+        <button id="play" data-id="{{projectData.song_id}}">play/pause</button>
         <button id="save">save</button>
         <button id="goBack">back to projects</button>
+        <div id="song-title-data" data-title="{{projectData.song_title}}"></div>
+        <div id="song-desc-data" data-desc="{{projectData.song_description}}"></div>
+        <div id="song-username-data" data-username="{{projectData.username}}"></div>
+        <div id="song-userid-data" data-userid="{{projectData.user_id}}"></div>    
+
 
 
         {{!-- if there are steps loaded in, create blank div and use js function to populate a grid --}}
@@ -296,5 +301,5 @@ crossorigin="anonymous"></script>
 <script src="/js/app.js"></script>
 <script src="/js/load-project.js"></script>
 <script src="/js/nav-to-dashboard.js"></script>
-
+<script src="/js/modify-project.js"></script>
 </html>
