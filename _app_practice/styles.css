@@ -1,15 +1,34 @@
+body {
+    background-color: rgb(255, 246, 234);
+}
+
 h3 {
-    margin-top:33px;
+    margin-top:30px;
+    color:rgb(63, 63, 63);
 }
 
 span {
     margin-right: 10px;
 }
 
-input {
+.sequencer button {
+    color: rgb(51, 49, 49);
+    font-weight: 600;
+    background-color: rgb(213, 226, 226);
+    margin-top: 30px;
+    border: 2px double rgba(80, 80, 80, 0.616);
+    font-family: 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.seq-grid {
+    display: block;
+}
+
+.seq-row > input {
     margin: 10px 8px;
-    transform: scale(2);
+    transform: scale(2.5);
     padding: 10px;
+    
 
 }
 
@@ -22,16 +41,75 @@ input {
     background-color: blanchedalmond;
 }
 
-.log-vals div span {
-    text-decoration: underline;
-    color: black;
+.drop-down-menu {
+    display: block;
 }
 
-#stLog, #saLog, #sdLog, #dkvLog, #rvLog, #dvLog, #ppdvLog, #ppfvLog {
-    text-decoration: none;
-    color: red;
+.drop-down-menu select, .drop-down-menu input {
+    width: 150px;
+    border:1px solid rgb(100, 100, 100);
+    border-radius: 2px;
+}
+
+.big-effects > input {
+    display: block;
+    width: 150px;
+    border:1px solid rgb(100, 100, 100);
+    border-radius: 2px;
+}
+
+
+
+.small-effects h4 {
+    margin-top: 30px;
+    font-style: italic;
+    color:rgb(63, 63, 63)
+}
+
+.drum-op {
+    display: grid;
+    grid-template-columns: 0fr 0fr 0fr;
+    
+}
+
+.mel-op {
+    display: grid;
+    grid-template-columns: 0fr 0fr;
+}
+
+.input-option > input {
+    width: 100px;
+    display:inline-block;
+    border:1px solid rgb(100, 100, 100);
+    border-radius: 2px;
+}
+
+.input-option > label {
     font-size: .9rem;
 }
+
+
+.log-vals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 50px;
+}
+
+#log {
+    margin-top: 30px;
+}
+
+.val span:nth-child(1) {
+    color: black;
+    font-size: 1rem;
+}
+
+.val span:nth-child(2) {
+    text-decoration: none;
+    color: red;
+    font-size: .8rem;
+}
+
 
 .show {
     display: block;
@@ -41,3 +119,14 @@ input {
     display: none;
 }
 
+@media only screen and (max-width: 768px) {
+    .input-option > input {
+        width: 95px;
+    }
+    h3 {
+        margin: 20px 0 10px 0;
+    }
+    .sequencer button {
+        margin-top: 20px;
+    }
+}
