@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const { request } = require('express');
 const { Project, User } = require('../models');
 const withAuth = require('../utils/auth');
 
@@ -14,9 +13,10 @@ router.get('/', withAuth, async (req, res) => {
 
   try {
     const userData = await User.findAll().catch(err => {
-      res.json(err)
+      res.json(err);
     });
 
+    // eslint-disable-next-line no-unused-vars
     const users = userData.map((project) => project.get({ plain: true }));
 
     res.redirect('/user-dash');
@@ -56,21 +56,17 @@ router.get('/user-dash', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-})
-
-
-
+});
 
 
 
 router.get('/app', async (req, res) => {
   try {
     res.render('app');
-  } catch {
+  } catch(err) {
     res.status(500).json(err);
   }
-
-})
+});
 
 
 module.exports = router;
