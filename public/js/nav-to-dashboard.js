@@ -11,4 +11,4 @@ const goToDash = async () => {
     }
 };
 
-document.getElementById('goToDash').addEventListener('click', goToDash);
+document.getElementById('goBack').addEventListener('click', goToDash);

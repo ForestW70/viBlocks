@@ -1,13 +1,15 @@
  <div class="col-auto">
-    <h2 class="text-center">Welcome, {{Username}}!</h2>
+    <h2 class="text-center" id="greetings" data-username="{{username}}" data-user-id="{{user_id}}">Welcome, {{username}}!</h2>
   </div>
+
+
 
 
   <div class="container">
     <!-- Trigger the modal with a button -->
-    <a href="./login.html" type="button" class="btn btn-secondary btn-lg pull-right">Logout</a>
-    <button type="button" class="btn btn-secondary btn-lg pull-right" data-toggle="modal" data-target="#newProjectModal">+ New Project</button>
-    
+    <button id="logout" type="button" class="btn btn-secondary btn-lg pull-right">Logout</button>>
+    <button type="button" class="btn btn-secondary btn-lg pull-right" data-bs-toggle="modal" data-bs-target="#newProjectModal">+ New Project</button>
+    <button id="test">test</button>
   
     <!-- Modal -->
     <div class="modal fade" id="newProjectModal" tabindex="-1" aria-labelledby="newProjectLabel" aria-hidden="true">
@@ -40,21 +42,25 @@
 
   <!-- Current Projects -->
   <div class="row3">
-    {{#if projects.length}}
+    
     <div class="col-md-6 project-list">
       <h3>Current Projects:</h3>
 
-      {{#each projects as |project|}}
-      <div class="row mb-2">
+      {{#each userProjects as |project|}}
+      <div class="row mb-2"><a href="api/projects/{{project.song_id}}">
         <div class="col-md-8">
-          <h4><a href="/project/{{project.id}}">{{project.name}}</a></h4>
+          <h4>{{project.song_title}}</h4>
         </div>
         <div class="col-md-4">
-          <button class="btn btn-sm bg-warning" data-id="{{project.id}}">DELETE</button>
+          <button class="btn btn-sm bg-warning" data-id="{{project.song_id}}">DELETE</button>
         </div>
-      </div>
+      </a></div>
       {{/each}}
     </div>
-    {{/if}}
+    
   </div>
   </div>
+
+<script src="/js/logout.js"></script>
+<script src="/js/add-project.js"></script>
+<script src="/js/save-project.js"></script>
