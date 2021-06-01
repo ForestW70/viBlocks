@@ -91,7 +91,7 @@
 
         <h3 class="">Melody Sequencer</h3>
         {{#if projectData.melody_sequencer_steps}}
-        <div class="seq-grid" id="pushMelody"></div>
+        <div class="seq-grid biiiig" id="pushMelody"></div>
 
         {{else}}        
         <div class="seq-grid" id="pushMelody">
@@ -226,12 +226,11 @@
                     <label for="reverb">Reverb↴</label>
                     <label for="distortion">Distortion↴</label>
                     <label for="pingDelay">Delay↴</label>
+
                     <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
                         placeholder="" id="reverb" onchange="setReverb(this.value)">
-
                     <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
                         placeholder="ex. '0.2'" id="distortion" onchange="setDistortion(this.value)">
-
                     <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
                         placeholder="ex. '0.2'" id="pingDelay" onchange="setDelay(this.value)">
                 </div>
