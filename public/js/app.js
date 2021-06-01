@@ -329,7 +329,7 @@ const setReverb = (lvl) => {
     if (lvl == 0) {
         reverb.wet.value = 0;
         console.log(`set reverb to: off`);
-        reverbLog.innerText = "off"
+        reverbLog.innerText = 0
     } else {
         reverb.wet.value = lvl;
         console.log(`set reverb to: ${lvl}`);
@@ -342,7 +342,7 @@ const setDistortion = (lvl) => {
         
         dist.wet.value = 0;
         console.log(`set distortion to: off`);
-        distLog.innerText = "off";
+        distLog.innerText = 0;
     } else {
         
         dist.wet.value = lvl;
@@ -355,7 +355,7 @@ const setDelay = (lvl) => {
     if (lvl == 0) {
         delay.wet.value = 0;
         console.log(`set Delay to: off`);
-        delayLog.innerText = "off";
+        delayLog.innerText = 0;
     } else {
         delay.wet.value = lvl;
         console.log(`set Delay to: ${lvl}`);
@@ -367,7 +367,7 @@ const setMelReverb = (lvl) => {
     if (lvl == 0) {
         melReverb.wet.value = 0;
         console.log(`set melody reverb to: off`);
-        melRevLog.innerText = "off";
+        melRevLog.innerText = 0;
     } else {
         melReverb.wet.value = lvl;
         console.log(`set melody reverb to: ${lvl}`);
@@ -379,7 +379,7 @@ const setMelEffect = (lvl) => {
     if (lvl == 0) {
         melPhsr.wet.value = 0;
         console.log(`set melody phaser to: off`);
-        melEffLog.innerText = "off";
+        melEffLog.innerText = 0;
     } else {
         melPhsr.wet.value = lvl;
         console.log(`set melody phaser to: ${lvl}`);

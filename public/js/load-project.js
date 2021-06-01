@@ -83,6 +83,5 @@ function loadMelFromSave(str) {
 
 loadDrumsFromSave(loadedDrumSteps);
 // if melody sequencer is marked as on, generate that as well.
-if (melOn.innerText == "true") {
-    loadMelFromSave(loadedMelSteps);
-}
+
+loadMelFromSave(loadedMelSteps);
