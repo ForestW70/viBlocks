@@ -1,4 +1,5 @@
 const router = require('express').Router();
+// eslint-disable-next-line no-unused-vars
 const { User, Project } = require('../../models');
 const withAuth = require('../../utils/auth');
 
@@ -68,15 +69,15 @@ router.post('/', withAuth, async (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
   try {
-      console.log(req.body);
+    console.log(req.body);
     const project = await Project.update(
       req.body,
-    {
+      {
         where: {
-            song_id: req.params.id
+          song_id: req.params.id
         }
-    });
-    
+      });
+
     res.render('userdash', { project, logged_in: true });
     //   res.status(200).json(newProject);
   } catch (err) {
