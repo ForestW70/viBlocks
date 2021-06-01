@@ -9,27 +9,13 @@
     <link rel="stylesheet" href="./styles.css">
     <title>vibez seq</title>
 </head>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./styles.css">
-    <title>vibez seq</title>
-</head>
 
 <body id="bigContainer" class="row">
-    <div class="sequencer col-6">
+    <div class="sequencer col-sm-12 col-md-6">
         <h3>Drum Sequencer</h3>
-        <button id="play">play/pause</button>
-        <button id="save">save</button>
-        <button id="goBack">back to projects</button>
-
-        <span id="nowPlaying"></span>
-        <div id="pushDrums">
+        
+        <div class="seq-grid" id="pushDrums">
             <div id="kickRow" class="seq-row">
                 <input type="checkbox">
                 <input type="checkbox">
@@ -97,33 +83,14 @@
                 <span>Tom 3</span>
             </div>
         </div>
-        
+        <button id="play" class="btn">play/pause</button>
+        <button id="save" class="btn">save</button>
+        <button id="goBack" class="btn">Go back</button>
 
         <h3 class="">Melody Sequencer</h3>
-        <button id="melOnOff">activate melody</button>
-        <div class="hide" id="pushMelody">
-            <div id="A#Row" class="seq-row">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <span>A#</span>
-            </div>
-            <div id="B#Row" class="seq-row">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <span>B#</span>
-            </div>
+        <!-- <button id="melOnOff">activate melody</button> -->
+        <div class="seq-grid" id="pushMelody">
+
             <div id="CRow" class="seq-row">
                 <input type="checkbox">
                 <input type="checkbox">
@@ -179,99 +146,163 @@
                 <input type="checkbox">
                 <span>G</span>
             </div>
+            <div id="A#Row" class="seq-row">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <span>A#</span>
+            </div>
+            <div id="B#Row" class="seq-row">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <input type="checkbox">
+                <span>B#</span>
+            </div>
         </div>
     </div>
 
-    <div class="touch-int col-6">
+    <div class="info-control col-sm-12 col-md-6">
 
-        <div id="drumEdit">
-            <h3>Select Options</h3>
+        <div id="big-effects">
+            <h3>Modify inputs</h3>
 
-            <!-- kits -->
-            <label for="kits">kit:</label>
-            <select name="kits" id="kits" onchange="drumGen(this.value)">
-                <option value="technoDrums">techno kit</option>
-                <option value="opfmDrums">4OP-FM kit</option>
-                <option value="acousticDrums">acoustic kit</option>
-                <option value="breakbeat8Drums">break beat 8</option>
-                <option value="breakbeat9Drums">break beat 9</option>
-                <option value="breakbeat13Drums">break beat 13</option>
-            </select>
-
-            <!-- effects -->
-            <div id="effectsCont" class="">
-                <label for="reverb">reverb:</label>
-                <select name="reverb" id="reverb" onchange="setReverb(this.value)">
-                    <option value="0">off</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-
-                <label for="distortion">distortion:</label>
-                <select name="distortion" id="distortion" onchange="setDistortion(this.value)">
-                    <option value="0">off</option>
-                    <option value=".1">1</option>
-                    <option value=".2">2</option>
-                    <option value=".3">3</option>
-                    <option value=".4">4</option>
-                    <option value=".5">5</option>
-                </select>
-
-                <label for="pingDelay">Delay:</label>
-                <select name="pingDelay" id="pingDelay" onchange="setDelay(this.value)">
-                    <option value="0">off</option>
-                    <option value=".05">1</option>
-                    <option value=".1">2</option>
-                    <option value=".13">3</option>
-                    <option value=".17">4</option>
-                    <option value=".23">5</option>
-                </select>
-
-                <label for="pingFeedback">Feedback:</label>
-                <select name="pingFeedback" id="pingFeedback" onchange="setDelay(this.value)">
-                    <option value=".25">off</option>
-                    <option value=".5">1</option>
-                    <option value=".75">2</option>
-                    <option value="1">3</option>
-                </select>
+            <div class="drop-down-menu">
+                <input class="insert" type="text" maxlength="3" title="" placeholder="133" id="bpm"
+                    onchange="setBpm(this.value)">
+                <label for="bpm">Bpm</label>
             </div>
-            <div class="log-vals">
+            <div class="drop-down-menu">
+                <select id="drumVol" onchange="setDrumVol(this.value)">
+                    <option value="-24">Softer</option>
+                    <option value="-12">Soft</option>
+                    <option value="-3" selected>Default</option>
+                    <option value="0">Loud</option>
+                    <option value="6">Overdrive</option>
+                </select>
+                <label for="drumVol">Drum volume</label>
+            </div>
+            <div class="drop-down-menu">
+                <select id="melVol" onchange="setMelVol(this.value)">
+                    <option value="-24">Softer</option>
+                    <option value="-12">Soft</option>
+                    <option value="-3" selected>Default</option>
+                    <option value="0">Loud</option>
+                    <option value="6">Overdrive</option>
+                </select>
+                <label for="melVol">Melody volume</label>
+            </div>
+            <div class="drop-down-menu">
+                <select name="kits" id="kits" onchange="drumGen(this.value)">
+                    <option value="technoDrums" selected>techno kit</option>
+                    <option value="opfmDrums">4OP-FM kit</option>
+                    <option value="acousticDrums">acoustic kit</option>
+                    <option value="breakbeat8Drums">break beat 8</option>
+                    <option value="breakbeat9Drums">break beat 9</option>
+                    <option value="breakbeat13Drums">break beat 13</option>
+                </select>
+                <label for="kits">Drumkit</label>
+            </div>
+
+
+
+            <div id="effectsCont" class="small-effects">
+                <h4>Drum Inputs:</h4>
+                <div class="input-option drum-op">
+                    <label for="reverb">Reverb↴</label>
+                    <label for="distortion">Distortion↴</label>
+                    <label for="pingDelay">Delay↴</label>
+                    <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
+                        placeholder="" id="reverb" onchange="setReverb(this.value)">
+
+                    <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
+                        placeholder="ex. '0.2'" id="distortion" onchange="setDistortion(this.value)">
+
+                    <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
+                        placeholder="ex. '0.2'" id="pingDelay" onchange="setDelay(this.value)">
+                </div>
+                <h4>Melody Inputs:</h4>
+                <div class="input-option mel-op">
+                    <label for="melReverb">Reverb↴</label>
+                    <label for="melEffect">Phaser↴</label>
+                    <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
+                        placeholder="" id="melReverb" onchange="setMelReverb(this.value)">
+                    <input type="text" maxlength="4" step="0.01" title="Set value between '0' and '1'. '0' = 'off'."
+                        placeholder="" id="melEffect" onchange="setMelEffect(this.value)">
+                </div>
+            </div>
+            <div class="">
                 <h2 id="log">Current values:</h2>
                 <div>
-                    <div class="show">
-                        <span>Song title:</span>
-                        <span id="stLog"></span>
-                        <span>Song artist:</span>
-                        <span id="saLog"></span>
-                        <span>Song description:</span>
-                        <span id="sdLog"></span>
-                    </div>
-                    <div class="show">
-                        <span>Drum kit:</span>
-                        <span id="dkvLog"></span>
-                        <span>Reverb value:</span>
-                        <span id="rvLog"></span>
-                        <span>Distortion value:</span>
-                        <span id="dvLog"></span>
-                        <span>Delay value:</span>
-                        <span id="ppdvLog"></span>
-                        <span>Feedback value:</span>
-                        <span id="ppfvLog"></span>
-                        <span>Melody reverb value:</span>
-                        <span id="mrvLog"></span>
-                        <span>Melody effect value:</span>
-                        <span id="mevLog"></span>
-                        <div id="grid"></div>
+                    <div class="log-vals show">
+                        <div class="val">
+                            <span>Song title:</span>
+                            <span id="stLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Song artist:</span>
+                            <span id="saLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Song description:</span>
+                            <span id="sdLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Drum kit:</span>
+                            <span id="dkvLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Drum volume:</span>
+                            <span id="drumVolLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Drum reverb value:</span>
+                            <span id="rvLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Drum distortion value:</span>
+                            <span id="dvLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Drum delay value:</span>
+                            <span id="ppdvLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Melody Volume:</span>
+                            <span id="melVolLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Melody reverb value:</span>
+                            <span id="mrvLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Melody Phaser value:</span>
+                            <span id="mevLog"></span>
+                        </div>
+                        <div class="val">
+                            <span>Bpm:</span>
+                            <span id="bpmLog"></span>
+                        </div>
+
                     </div>
                     <div class="hide">
-                        <span id="volLog"></span>
+
+                        <span id="ppfvLog"></span>
                         <span id="drumSeqLog"></span>
                         <span id="melodyIsOn"></span>
                         <span id="melodySeqLog"></span>
                         <span id="cvLog"></span>
-                        <span id="bpmLog"></span>
-                        
+
+
 
                     </div>
                 </div>
@@ -284,8 +315,8 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.9/Tone.js"
-integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ=="
-crossorigin="anonymous"></script>
+    integrity="sha512-nUjml8mN4CNYqBAy0ndDrd8pJV/eTtBNDsnvNtPqozx9/BccUeWSoKW14qWkQUnhuh8E3m+yra3qdzM68lqPEQ=="
+    crossorigin="anonymous"></script>
 <script src="app.js"></script>
 
 </html>
