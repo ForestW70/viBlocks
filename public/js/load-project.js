@@ -3,6 +3,7 @@ const drumBox = document.getElementById("pushDrums")
 const melBox = document.getElementById("pushMelody")
 const drumSeqLog = document.getElementById("drumSeqLog")
 const melSeqLog = document.getElementById("melodySeqLog")
+const melOn = document.getElementById("melodyIsOn")
 
 // get value from the "log" elements (these values get loaded through handlebars)
 const loadedDrumSteps = drumSeqLog.innerText;
@@ -10,7 +11,7 @@ const loadedMelSteps = melSeqLog.innerText;
 
 // these arrays will be used to name each row accordingly.
 const drumRowNameArray = ["kick", "snare", "hat", "tom1", "tom2", "tom3"];
-const noteRowNameArray = ["A#", "B#", "C", "D", "D", "F", "G"];
+const noteRowNameArray = ["C", "D", "D#", "F", "G", "A#", "B#"];
 
 let exampleString = "00100010-00001000-01010101-11000000-00000000-00000010";
 
@@ -24,7 +25,6 @@ function loadDrumsFromSave(str) {
     newArray.forEach(rowBlock => {
         const newRow = document.createElement("div");
         const rowLabel = document.createElement("span");
-
         newRow.classList.add('seq-row');
         newRow.id = drumRowNameArray[index] + "Row";
         rowLabel.innerText = drumRowNameArray[index];
@@ -34,7 +34,7 @@ function loadDrumsFromSave(str) {
         row.forEach(inputs => {
             let input = document.createElement("input");
             input.type = "checkbox";
-            
+
             // if 1, append a checked box, if 0 append a blank box.
             if (inputs == 1) {
                 input.checked = true;
@@ -62,7 +62,6 @@ function loadMelFromSave(str) {
         newRow.classList.add('seq-row');
         newRow.id = noteRowNameArray[index] + "Row";
         rowLabel.innerText = noteRowNameArray[index];
-        console.log(newRow.id);
 
 
         let row = rowBlock.split("")
@@ -77,14 +76,13 @@ function loadMelFromSave(str) {
             }
         })
         newRow.appendChild(rowLabel);
-        drumBox.appendChild(newRow);
+        melBox.appendChild(newRow);
         index++;
     })
 }
 
 loadDrumsFromSave(loadedDrumSteps);
-
 // if melody sequencer is marked as on, generate that as well.
-if (document.getElementById("melodyIsOn").innerText == 1) {
-    loadedMelFromSave(loadedMelSteps);
+if (melOn.innerText == "true") {
+    loadMelFromSave(loadedMelSteps);
 }
