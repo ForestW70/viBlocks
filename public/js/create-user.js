@@ -17,9 +17,11 @@ const createUser = async (event) => {
       }else {
         alert('Failed to sign up! Make sure password has 8 or more characters!');
       }
-    }else{
+    }else if(res.ok){
       alert('Username is already taken!');
       return;
+    } else{
+      alert('Failed to sign up! Make sure password has 8 or more characters!');
     }
   }else{
     alert('Passwords do not match!');
