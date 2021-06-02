@@ -10,7 +10,7 @@ This application is a digital audio workstation that allows users to create musi
 View Application - [Here](https://viblocks.herokuapp.com/login)
 
 Preview of Application:
-![Application image]()
+![Application image](/public/images/webpagescreenshot.png)
 
 ## Usage
 
